@@ -1,0 +1,41 @@
+package user
+
+import (
+	"context"
+	"errors"
+	"net/http"
+
+	httphelper "github.com/escoutdoor/bookit/internal/controller/http"
+	"github.com/escoutdoor/bookit/internal/controller/http/resp"
+	"github.com/escoutdoor/bookit/internal/model"
+	useruc "github.com/escoutdoor/bookit/internal/usecase/user"
+)
+
+func (c *controller) GetByID(w http.ResponseWriter, r *http.Request) {
+	id, err := httphelper.GetIDParam(r)
+	if err != nil {
+		resp.Error(w, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	ctx := context.Background()
+	u, err := c.uc.GetByID(ctx, id)
+	if err != nil {
+		if errors.Is(err, useruc.ErrNotFound) {
+			resp.JSON(w, http.StatusNotFound, "user not found")
+			return
+		}
+
+		c.log.Error("failed to get user by id", "error", err)
+		resp.Error(w, http.StatusInternalServerError, "internal server error")
+		return
+	}
+
+	type response struct {
+		User *model.User `json:"user"`
+	}
+
+	resp.JSON(w, http.StatusOK, response{
+		User: u,
+	})
+}

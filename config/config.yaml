@@ -1,0 +1,38 @@
+app:
+  name: "bookit"
+  version: 1
+  env: local
+
+http:
+  port: 5203
+  timeout: 5s
+  idle_timeout: 60s
+
+jwt:
+  token_ttl: 120m
+  sign_key: escoutdoor
+
+postgres:
+  # host: localhost 
+  # port: 3900 
+  host: postgres
+  port: 5432
+  name: bookit
+  user: escoutdoor
+  password: ivan
+
+minio:
+  bucket: bookit
+  host: minio:9000
+  public_url: http://localhost:8080
+  access_key: escivan
+  secret_key: bookit2024
+  region: auto
+  ssl: false 
+
+redis:
+  # url: redis://redis:6379/0
+  host: redis
+  port: 6379
+  db: 0
+  apartment_ttl: 5m

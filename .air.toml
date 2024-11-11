@@ -1,0 +1,8 @@
+[build]
+    cmd = "go build -o ./bin/bookit ./cmd/bookit/main.go"
+    bin = "./bin/bookit"
+    dir = "."
+    include_ext = ["go"]
+    exclude_dir = ["vendor", "tmp"]
+    run_after_build = "chmod +x ./bin/bookit"
+    poll = true

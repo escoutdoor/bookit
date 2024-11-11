@@ -1,0 +1,7 @@
+bin
+vendor
+tmp
+air
+
+.git
+.gitignore
